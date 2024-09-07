@@ -22,16 +22,18 @@ def read_master(in_dir: Path) -> None:
         'b': {'use_cols': [2, 5], 'col_names': ['DiseaseCode', 'DiseaseName'], 'table_name': 'M_DISEASE'},
         't': {'use_cols': [2, 4], 'col_names': ['EquipmentCode', 'EquipmentName'], 'table_name': 'M_EQUIPMENT'},
         'y': {'use_cols': [2, 4], 'col_names': ['MedicineCode', 'MedicineName'], 'table_name': 'M_MEDICINE'},
+        'z': {'use_cols': [2, 6], 'col_names': ['ModifierCode', 'ModifierName'], 'table_name': 'M_MODIFIER'},
     }
     for file in in_dir.glob('**/*.csv'):
         # ファイル名の１文字目がuse_colsのキーに含まれているか
         if file.name[0] not in use_cols_dict.keys():
             continue
+        print(f"{file.name}を読み込みます")
         use_cols = use_cols_dict[file.name[0]]['use_cols']
         df = pd.read_csv(file, engine='python', encoding='cp932', header=None, dtype='object', usecols=use_cols)
         df.columns = use_cols_dict[file.name[0]]['col_names']
         df['updated_at'] = datetime.datetime.now()
-        insert_master(df, use_cols_dict[file.name[0]]['table_name'])
+        print(insert_master(df, use_cols_dict[file.name[0]]['table_name']))
 
 
 def main():
