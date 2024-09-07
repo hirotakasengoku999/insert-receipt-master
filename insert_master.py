@@ -33,7 +33,7 @@ def read_master(in_dir: Path) -> None:
         df = pd.read_csv(file, engine='python', encoding='cp932', header=None, dtype='object', usecols=use_cols)
         df.columns = use_cols_dict[file.name[0]]['col_names']
         # 更新日付をYYYY-mm-dd HH:MM:SS形式で追加
-        df['UpdatedTimeStamp'] = pd.to_datetime(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+        df['UpdatedTimeStamp'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         print(insert_master(df, use_cols_dict[file.name[0]]['table_name']))
 
 
